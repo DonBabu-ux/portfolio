@@ -1,0 +1,339 @@
+<%- include('partials/header', { description: project.description }) %>
+
+<!-- ─── PROJECT HERO ──────────────────────────────────────────────────────── -->
+<section class="page-hero project-hero" id="project-hero">
+  <div class="container">
+    <nav class="breadcrumb" aria-label="breadcrumb" id="breadcrumb">
+      <a href="/">Home</a>
+      <span class="breadcrumb-sep"><i class="fas fa-chevron-right"></i></span>
+      <a href="/projects">Projects</a>
+      <span class="breadcrumb-sep"><i class="fas fa-chevron-right"></i></span>
+      <span class="breadcrumb-current"><%= project.title %></span>
+    </nav>
+
+    <div class="project-hero-content">
+      <div class="project-meta-row">
+        <span class="card-category"><%= project.category || 'Project' %></span>
+        <span class="card-year"><%= project.year || '' %></span>
+        <span class="status-badge status-<%= project.status || 'completed' %>">
+          <%= (project.status || 'completed').replace('-', ' ') %>
+        </span>
+      </div>
+
+      <h1 class="project-title"><%= project.title %></h1>
+      <p class="project-subtitle"><%= project.description %></p>
+
+      <div class="project-tech-row">
+        <% (project.tech || []).forEach(t => { %>
+          <span class="tech-badge tech-badge--lg"><%= t %></span>
+        <% }) %>
+      </div>
+
+      <div class="project-action-row">
+        <% if (project.previewUrl) { %>
+          <a href="<%= project.previewUrl %>" target="_blank" class="btn-primary btn-lg" id="open-live">
+            <i class="fas fa-external-link-alt"></i> Live Demo
+          </a>
+        <% } %>
+        <% if (project.githubRepo) { %>
+          <a href="https://github.com/<%= project.githubRepo %>" target="_blank" class="btn-outline btn-lg" id="open-github">
+            <i class="fab fa-github"></i> View on GitHub
+          </a>
+        <% } %>
+      </div>
+
+      <!-- GitHub Live Stats (if fetched) -->
+      <% if (repoInfo) { %>
+        <div class="repo-stats" id="repo-stats">
+          <span class="repo-stat"><i class="fas fa-star"></i> <%= repoInfo.stars %> stars</span>
+          <span class="repo-stat"><i class="fas fa-code-branch"></i> <%= repoInfo.forks %> forks</span>
+          <% if (repoInfo.language) { %>
+            <span class="repo-stat"><i class="fas fa-circle lang-dot"></i> <%= repoInfo.language %></span>
+          <% } %>
+          <% if (repoInfo.topics && repoInfo.topics.length) { %>
+            <% repoInfo.topics.slice(0, 4).forEach(t => { %>
+              <span class="repo-topic">#<%= t %></span>
+            <% }) %>
+          <% } %>
+        </div>
+      <% } %>
+    </div>
+  </div>
+</section>
+
+<!-- ─── TOGGLE PANEL ──────────────────────────────────────────────────────── -->
+<section class="toggle-section" id="toggle-section">
+  <div class="container">
+    <!-- Toggle Controls -->
+    <div class="toggle-controls" id="toggle-controls" role="tablist" aria-label="Project view mode">
+      <button
+        class="toggle-btn active"
+        id="btn-preview"
+        role="tab"
+        aria-selected="true"
+        aria-controls="panel-preview"
+        data-panel="preview"
+      >
+        <% if (!project.previewUrl && project.mockups && project.mockups.length > 0) { %>
+          <i class="fas fa-palette"></i> Design Gallery
+        <% } else { %>
+          <i class="fas fa-desktop"></i> Live Preview
+        <% } %>
+      </button>
+      <button
+        class="toggle-btn"
+        id="btn-code"
+        role="tab"
+        aria-selected="false"
+        aria-controls="panel-code"
+        data-panel="code"
+      >
+        <i class="fas fa-code"></i> Source Code
+      </button>
+    </div>
+
+    <!-- ── PREVIEW PANEL ── -->
+    <div class="panel" id="panel-preview" role="tabpanel" aria-labelledby="btn-preview">
+      <% if (project.previewUrl) { %>
+        <div class="iframe-wrapper" id="iframe-wrapper">
+          <div class="iframe-toolbar">
+            <div class="iframe-url-bar">
+              <i class="fas fa-lock"></i>
+              <span id="iframe-url-text"><%= project.previewUrl %></span>
+            </div>
+            <a href="<%= project.previewUrl %>" target="_blank" class="iframe-open-btn" title="Open in new tab">
+              <i class="fas fa-external-link-alt"></i>
+            </a>
+          </div>
+          <div class="iframe-container">
+            <div class="iframe-loading" id="iframe-loading">
+              <div class="spinner"></div>
+              <span>Loading preview…</span>
+            </div>
+            <iframe
+              id="project-iframe"
+              src="<%= project.previewUrl %>"
+              title="<%= project.title %> live preview"
+              loading="lazy"
+              allowfullscreen
+              sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
+            ></iframe>
+          </div>
+        </div>
+      <% } else if (project.mockups && project.mockups.length > 0) { %>
+        <div class="mockups-gallery">
+          <% project.mockups.forEach(mockup => { %>
+            <div class="mockup-img-wrapper">
+              <img src="<%= mockup %>" alt="Design Mockup" loading="lazy" class="mockup-img" />
+              <div class="mockup-overlay">
+                <a href="<%= mockup %>" target="_blank" class="mockup-zoom"><i class="fas fa-search-plus"></i></a>
+              </div>
+            </div>
+          <% }) %>
+        </div>
+      <% } else { %>
+        <div class="no-preview" id="no-preview">
+          <i class="fas fa-eye-slash"></i>
+          <h3>No Live Preview Available</h3>
+          <p>This project doesn't have a public deployment URL yet.</p>
+          <% if (project.githubRepo) { %>
+            <a href="https://github.com/<%= project.githubRepo %>" target="_blank" class="btn-outline">
+              <i class="fab fa-github"></i> View Source on GitHub
+            </a>
+          <% } %>
+        </div>
+      <% } %>
+    </div>
+
+    <!-- ── CODE PANEL ── -->
+    <div class="panel hidden" id="panel-code" role="tabpanel" aria-labelledby="btn-code">
+      <div class="code-viewer" id="code-viewer">
+        <!-- Sidebar File Tree -->
+        <div class="file-tree" id="file-tree">
+          <div class="file-tree-header">
+            <i class="fas fa-folder-open"></i>
+            <span><%= project.githubRepo || project.title %></span>
+          </div>
+          <% if (project.githubRepo) { %>
+            <div class="file-tree-loading" id="file-tree-loading">
+              <div class="spinner spinner--sm"></div> Loading files…
+            </div>
+            <ul class="file-list" id="file-list" aria-label="Repository files"></ul>
+          <% } else { %>
+            <div class="file-tree-empty">
+              <i class="fas fa-exclamation-circle"></i>
+              <p>No GitHub repo configured for this project.</p>
+            </div>
+          <% } %>
+        </div>
+
+        <!-- Code Display Area -->
+        <div class="code-display" id="code-display">
+          <div class="code-display-placeholder" id="code-placeholder">
+            <i class="fas fa-mouse-pointer"></i>
+            <h4>Select a file to view its source</h4>
+            <p>Browse the file tree on the left to explore the codebase.</p>
+          </div>
+          <div class="code-display-content hidden" id="code-content">
+            <div class="code-file-header" id="code-file-header">
+              <span class="code-file-path" id="code-file-path"></span>
+              <button class="btn-copy" id="btn-copy-code" title="Copy to clipboard">
+                <i class="fas fa-copy"></i> Copy
+              </button>
+            </div>
+            <div class="code-scroll-area">
+              <pre id="code-pre"><code id="code-block"></code></pre>
+            </div>
+          </div>
+          <div class="code-loading hidden" id="code-loading">
+            <div class="spinner"></div>
+            <span>Fetching file content…</span>
+          </div>
+          <div class="code-error hidden" id="code-error">
+            <i class="fas fa-exclamation-triangle"></i>
+            <span id="code-error-msg">Failed to load file.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── PROJECT DETAILS ───────────────────────────────────────────────────── -->
+<section class="section project-details-section" id="project-details">
+  <div class="container">
+    <div class="details-grid">
+      <div class="details-main">
+        <h2 class="details-title">About This Project</h2>
+        <p class="details-body typewriter-trigger" data-speed="15">
+          <span class="typing-text"><%= project.longDescription || project.description %></span>
+        </p>
+      </div>
+
+      <aside class="details-sidebar">
+        <div class="sidebar-card" id="sidebar-info">
+          <h3><i class="fas fa-info-circle"></i> Project Info</h3>
+          <dl class="info-list">
+            <dt>Category</dt>
+            <dd><%= project.category || 'N/A' %></dd>
+            <dt>Year</dt>
+            <dd><%= project.year || 'N/A' %></dd>
+            <dt>Status</dt>
+            <dd class="status-<%= project.status || 'completed' %>"><%= (project.status || 'completed').replace('-', ' ') %></dd>
+            <% if (project.previewUrl) { %>
+              <dt>Live URL</dt>
+              <dd><a href="<%= project.previewUrl %>" target="_blank" class="sidebar-link">Visit Site →</a></dd>
+            <% } %>
+            <% if (project.githubRepo) { %>
+              <dt>Repository</dt>
+              <dd><a href="https://github.com/<%= project.githubRepo %>" target="_blank" class="sidebar-link"><%= project.githubRepo %></a></dd>
+            <% } %>
+          </dl>
+        </div>
+
+        <div class="sidebar-card" id="sidebar-tech">
+          <h3><i class="fas fa-layer-group"></i> Tech Stack</h3>
+          <div class="card-tech">
+            <% (project.tech || []).forEach(t => { %>
+              <span class="tech-badge"><%= t %></span>
+            <% }) %>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- ─── BACK LINK ─────────────────────────────────────────────────────────── -->
+<div class="container back-link-row" id="back-link-row">
+  <a href="/projects" class="btn-ghost" id="back-to-projects">
+    <i class="fas fa-arrow-left"></i> Back to Projects
+  </a>
+</div>
+
+<%- include('partials/footer') %>
+
+<style>
+/* Masonry-style Grid for Mockups */
+.mockups-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+  padding: 1rem;
+  background: var(--bg-tertiary, #111111);
+  border-radius: var(--radius-lg, 12px);
+}
+@media (max-width: 480px) {
+  .mockups-gallery {
+    grid-template-columns: 1fr;
+    padding: 0.5rem;
+    gap: 1rem;
+  }
+}
+.mockup-img-wrapper {
+  position: relative;
+  border-radius: var(--radius-md, 8px);
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background: var(--bg-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.mockup-img-wrapper:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+}
+.mockup-img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  display: block;
+  transition: transform 0.5s ease;
+}
+.mockup-img-wrapper:hover .mockup-img {
+  transform: scale(1.05);
+}
+.mockup-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.mockup-img-wrapper:hover .mockup-overlay {
+  opacity: 1;
+}
+.mockup-zoom {
+  color: white;
+  font-size: 2rem;
+  text-decoration: none;
+  transform: scale(0.5);
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.mockup-img-wrapper:hover .mockup-zoom {
+  transform: scale(1);
+}
+.mockup-zoom:hover {
+  color: var(--primary-color, #0ea5e9);
+}
+</style>
+
+<script>
+  // Pass project data to JS
+  window.PROJECT = {
+    slug: '<%= project.slug %>',
+    githubRepo: '<%= project.githubRepo || "" %>',
+    previewUrl: '<%= project.previewUrl || "" %>'
+  };
+</script>
+<script src="/js/toggleView.js"></script>
+<script src="/js/githubFetcher.js"></script>

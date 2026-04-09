@@ -1,0 +1,89 @@
+<%- include('partials/header', { description: 'Browse all projects by ' + developer.name }) %>
+
+<section class="page-hero" id="projects-hero">
+  <div class="container">
+    <span class="section-label">Portfolio</span>
+    <h1 class="page-title">My <span class="gradient-text">Projects</span></h1>
+    <p class="page-desc">
+      <%= projects.length %> projects across full-stack web, APIs, SaaS, and AI/ML.
+    </p>
+  </div>
+</section>
+
+<!-- ─── FILTER BAR ────────────────────────────────────────────────────────── -->
+<section class="filter-section" id="filter-section">
+  <div class="container">
+    <div class="filter-bar" id="filter-bar" role="tablist" aria-label="Filter projects by category">
+      <% categories.forEach(cat => { %>
+        <a
+          href="/projects?category=<%= cat === 'All' ? '' : cat %>"
+          class="filter-btn <%= cat === activeCategory ? 'active' : '' %>"
+          id="filter-<%= cat.toLowerCase().replace(/\//g, '-') %>"
+          role="tab"
+          aria-selected="<%= cat === activeCategory ? 'true' : 'false' %>"
+        >
+          <%= cat %>
+        </a>
+      <% }) %>
+    </div>
+  </div>
+</section>
+
+<!-- ─── PROJECT GRID ──────────────────────────────────────────────────────── -->
+<section class="section" id="all-projects">
+  <div class="container">
+    <% if (projects.length === 0) { %>
+      <div class="empty-state" id="empty-state">
+        <i class="fas fa-folder-open"></i>
+        <h3>No projects found</h3>
+        <p>No projects in this category yet.</p>
+        <a href="/projects" class="btn-primary">View All Projects</a>
+      </div>
+    <% } else { %>
+      <div class="projects-grid projects-grid--large" id="projects-grid">
+        <% projects.forEach((project, i) => { %>
+          <article class="project-card" id="project-<%= project.slug %>" style="--delay: <%= i * 0.07 %>s">
+            <div class="card-header">
+              <div class="card-meta">
+                <span class="card-category"><%= project.category || 'Project' %></span>
+                <span class="card-year"><%= project.year || '' %></span>
+              </div>
+              <span class="status-badge status-<%= project.status || 'completed' %>">
+                <%= (project.status || 'completed').replace('-', ' ') %>
+              </span>
+            </div>
+
+            <div class="card-body">
+              <h2 class="card-title"><%= project.title %></h2>
+              <p class="card-desc"><%= project.description %></p>
+
+              <div class="card-tech">
+                <% (project.tech || []).forEach(t => { %>
+                  <span class="tech-badge"><%= t %></span>
+                <% }) %>
+              </div>
+            </div>
+
+            <div class="card-footer">
+              <a href="/projects/<%= project.slug %>" class="btn-primary btn-sm" id="view-<%= project.slug %>">
+                <i class="fas fa-eye"></i> View Details
+              </a>
+              <% if (project.previewUrl) { %>
+                <a href="<%= project.previewUrl %>" target="_blank" class="btn-ghost btn-sm" id="preview-<%= project.slug %>">
+                  <i class="fas fa-external-link-alt"></i> Live
+                </a>
+              <% } %>
+              <% if (project.githubRepo) { %>
+                <a href="https://github.com/<%= project.githubRepo %>" target="_blank" class="btn-ghost btn-sm" id="github-<%= project.slug %>">
+                  <i class="fab fa-github"></i>
+                </a>
+              <% } %>
+            </div>
+          </article>
+        <% }) %>
+      </div>
+    <% } %>
+  </div>
+</section>
+
+<%- include('partials/footer') %>

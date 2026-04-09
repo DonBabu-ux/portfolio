@@ -1,0 +1,46 @@
+  </main>
+
+  <!-- ─── Footer ──────────────────────────────────────────────────────────── -->
+  <footer class="footer" id="footer">
+    <div class="footer-container">
+      <div class="footer-brand">
+        <a href="/" class="nav-logo">
+          <span class="logo-icon">⚡</span>
+          <span class="logo-text"><%= developer.name.split(' ')[0] %><span class="logo-accent">.</span></span>
+        </a>
+        <p class="footer-tagline"><%= developer.tagline %></p>
+      </div>
+
+      <div class="footer-links">
+        <div class="footer-col">
+          <h4>Navigation</h4>
+          <a href="/">Home</a>
+          <a href="/projects">Projects</a>
+          <a href="/#contact">Contact</a>
+        </div>
+        <div class="footer-col">
+          <h4>Connect</h4>
+          <a href="<%= developer.github %>" target="_blank"><i class="fab fa-github"></i> GitHub</a>
+          <a href="<%= developer.linkedin %>" target="_blank"><i class="fab fa-linkedin"></i> LinkedIn</a>
+          <a href="<%= developer.twitter %>" target="_blank"><i class="fab fa-twitter"></i> Twitter</a>
+        </div>
+        <div class="footer-col">
+          <h4>Tech Stack</h4>
+          <% developer.stack.forEach(tech => { %>
+            <span class="tech-tag"><%= tech %></span>
+          <% }) %>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>© <%= new Date().getFullYear() %> <%= developer.name %>. Crafted with <span class="heart">❤</span> and lots of ☕</p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="/js/main.js"></script>
+  <%- typeof extraScripts !== 'undefined' ? extraScripts : '' %>
+</body>
+</html>

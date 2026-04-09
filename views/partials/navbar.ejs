@@ -1,0 +1,52 @@
+<nav class="navbar" id="navbar">
+  <div class="nav-container">
+    <!-- Logo -->
+    <a href="/" class="nav-logo" id="nav-logo">
+      <span class="logo-icon">⚡</span>
+      <span class="logo-text"><%= developer.name.split(' ')[0] %><span class="logo-accent">.</span></span>
+    </a>
+
+    <!-- Desktop Nav Links -->
+    <ul class="nav-links" id="nav-links">
+      <li>
+        <a href="/" class="nav-link <%= typeof page !== 'undefined' && page === 'home' ? 'active' : '' %>" id="nav-home">
+          <i class="fas fa-home"></i> Home
+        </a>
+      </li>
+      <li>
+        <a href="/projects" class="nav-link <%= typeof page !== 'undefined' && page === 'projects' ? 'active' : '' %>" id="nav-projects">
+          <i class="fas fa-code"></i> Projects
+        </a>
+      </li>
+      <li>
+        <a href="/#about" class="nav-link" id="nav-about">
+          <i class="fas fa-user"></i> About Developer
+        </a>
+      </li>
+      <li>
+        <a href="/#contact" class="nav-link" id="nav-contact">
+          <i class="fas fa-envelope"></i> Contact
+        </a>
+      </li>
+    </ul>
+
+    <!-- CTA + Hamburger -->
+    <div class="nav-actions">
+      <a href="<%= developer.github %>" target="_blank" class="btn-ghost btn-sm" id="nav-github">
+        <i class="fab fa-github"></i> GitHub
+      </a>
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+    <a href="/" class="mobile-link <%= typeof page !== 'undefined' && page === 'home' ? 'active' : '' %>"><i class="fas fa-home"></i> Home</a>
+    <a href="/projects" class="mobile-link <%= typeof page !== 'undefined' && page === 'projects' ? 'active' : '' %>"><i class="fas fa-code"></i> Projects</a>
+    <a href="/#about" class="mobile-link"><i class="fas fa-user"></i> About Developer</a>
+    <a href="/#contact" class="mobile-link"><i class="fas fa-envelope"></i> Contact</a>
+    <a href="<%= developer.github %>" target="_blank" class="mobile-link"><i class="fab fa-github"></i> GitHub</a>
+  </div>
+</nav>

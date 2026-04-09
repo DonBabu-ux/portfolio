@@ -1,0 +1,409 @@
+<%- include('partials/header', { description: developer.tagline }) %>
+
+<!-- ─── HERO SECTION ──────────────────────────────────────────────────────── -->
+<section class="hero" id="hero">
+  <div class="hero-bg">
+    <div class="hero-grid"></div>
+    <div class="hero-glow glow-1"></div>
+    <div class="hero-glow glow-2"></div>
+  </div>
+
+  <div class="hero-content">
+    <div class="hero-badge" id="hero-badge">
+      <span class="badge-dot"></span> Open to Work
+    </div>
+
+    <h1 class="hero-title" id="hero-title">
+      Hi, I'm <span class="gradient-text"><%= developer.name %></span>
+    </h1>
+
+    <p class="hero-role" id="hero-role">
+      <span class="typewriter" id="typewriter"><%= developer.role %></span>
+    </p>
+
+    <p class="hero-bio" id="hero-bio">
+      I build fast, scalable, and beautiful full-stack web applications.
+      Passionate about clean code, great UX, and solving real-world problems
+      with technology.
+    </p>
+
+    <div class="hero-stack" id="hero-stack">
+      <% developer.stack.forEach(tech => { %>
+        <span class="stack-badge"><%= tech %></span>
+      <% }) %>
+    </div>
+
+    <div class="hero-cta" id="hero-cta">
+      <a href="/projects" class="btn-primary btn-lg" id="cta-projects">
+        <i class="fas fa-rocket"></i> View My Work
+      </a>
+      <a href="/#contact" class="btn-outline btn-lg" id="cta-contact">
+        <i class="fas fa-paper-plane"></i> Get In Touch
+      </a>
+    </div>
+
+    <div class="hero-socials" id="hero-socials">
+      <a href="<%= developer.github %>" target="_blank" class="social-link" title="GitHub" id="social-github">
+        <i class="fab fa-github"></i>
+      </a>
+      <a href="<%= developer.linkedin %>" target="_blank" class="social-link" title="LinkedIn" id="social-linkedin">
+        <i class="fab fa-linkedin"></i>
+      </a>
+      <a href="<%= developer.twitter %>" target="_blank" class="social-link" title="Twitter" id="social-twitter">
+        <i class="fab fa-twitter"></i>
+      </a>
+      <a href="mailto:<%= developer.email %>" class="social-link" title="Email" id="social-email">
+        <i class="fas fa-envelope"></i>
+      </a>
+      <a href="https://wa.me/254117234064" target="_blank" class="social-link" title="WhatsApp" id="social-whatsapp">
+        <i class="fab fa-whatsapp"></i>
+      </a>
+      <a href="tel:0117234064" class="social-link" title="Call" id="social-call">
+        <i class="fas fa-phone"></i>
+      </a>
+    </div>
+  </div>
+
+  <div class="hero-visual" id="hero-visual">
+    <div class="code-window">
+      <div class="window-bar">
+        <span class="dot red"></span>
+        <span class="dot yellow"></span>
+        <span class="dot green"></span>
+        <span class="window-title">portfolio.js</span>
+      </div>
+      <pre class="window-code"><code class="language-javascript">const developer = {
+  name: "<%= developer.name %>",
+  role: "<%= developer.role %>",
+  skills: [
+    <% developer.stack.forEach((tech, i) => { %>
+    "<%= tech %>"<%= i < developer.stack.length - 1 ? ',' : '' %>
+    <% }) %>
+  ],
+  status: "open_to_work",
+  passion: "building things",
+
+  build: async (idea) => {
+    const plan = await architect(idea);
+    const code = await implement(plan);
+    return deploy(code); // 🚀
+  }
+};</code></pre>
+    </div>
+  </div>
+</section>
+
+<!-- ─── ABOUT DEVELOPER ───────────────────────────────────────────────────── -->
+<section class="section about-section" id="about">
+  <div class="container">
+    <div class="about-wrapper">
+      <div class="about-image-col">
+        <div class="about-image-bkg">
+          <!-- Profile picture updated to real image -->
+          <img src="/images/portfolio images/developer image.jpg" alt="Developer Profile Picture" class="about-image" id="profile-pic" loading="lazy" />
+          <div class="about-experience-badge">
+            <span class="exp-years">3+</span>
+            <span class="exp-text">Years<br>Experience</span>
+          </div>
+        </div>
+      </div>
+      <div class="about-content-col">
+        <span class="section-label">About Developer</span>
+        <h2 class="section-title">Who is <span class="gradient-text"><%= developer.name %></span>?</h2>
+        <p class="about-desc typewriter-trigger" data-speed="20">
+          <span class="typing-text">With over 3 years of extensive experience in full-stack coding and digital product development, I specialize in crafting robust web architectures, scalable server environments, and intuitive user interfaces.</span>
+        </p>
+        <p class="about-desc typewriter-trigger" data-speed="20">
+          <span class="typing-text">My journey started with simple front-end designs, but evolved quickly into engineering secure backends, architecting databases, and deploying enterprise-level web applications. When I'm not coding, I'm usually researching new UI/UX trends, mastering fresh tech stacks, or contributing to the developer community.</span>
+        </p>
+        <div class="about-info-grid">
+          <div class="info-item">
+            <span class="info-title">Name</span>
+            <span class="info-value"><%= developer.name %></span>
+          </div>
+          <div class="info-item">
+            <span class="info-title">Phone</span>
+            <span class="info-value"><a href="tel:0117234064">0117234064</a></span>
+          </div>
+          <div class="info-item">
+            <span class="info-title">Email</span>
+            <span class="info-value"><a href="mailto:<%= developer.email %>"><%= developer.email %></a></span>
+          </div>
+          <div class="info-item">
+            <span class="info-title">Location</span>
+            <span class="info-value">Remote / Worldwide</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── STATS SECTION ─────────────────────────────────────────────────────── -->
+<section class="stats-section" id="stats">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat-card" id="stat-projects">
+        <span class="stat-number" data-target="<%= featured.length %>+">0</span>
+        <span class="stat-label">Projects Built</span>
+      </div>
+      <div class="stat-card" id="stat-years">
+        <span class="stat-number" data-target="3+">0</span>
+        <span class="stat-label">Years Experience</span>
+      </div>
+      <div class="stat-card" id="stat-tech">
+        <span class="stat-number" data-target="<%= developer.stack.length %>+">0</span>
+        <span class="stat-label">Technologies</span>
+      </div>
+      <div class="stat-card" id="stat-commits">
+        <span class="stat-number" data-target="500+">0</span>
+        <span class="stat-label">GitHub Commits</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FEATURED PROJECTS ─────────────────────────────────────────────────── -->
+<section class="section featured-section" id="featured">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-label">Portfolio</span>
+      <h2 class="section-title">Featured <span class="gradient-text">Projects</span></h2>
+      <p class="section-desc">A selection of my best work — ranging from full-stack apps to API integrations.</p>
+    </div>
+
+    <div class="projects-grid" id="featured-grid">
+      <% featured.forEach((project, i) => { %>
+        <article class="project-card" id="project-card-<%= i %>" style="--delay: <%= i * 0.1 %>s">
+          <div class="card-header">
+            <div class="card-icon">
+              <i class="fas fa-code"></i>
+            </div>
+            <% if (project.featured) { %>
+              <span class="featured-badge">⭐ Featured</span>
+            <% } %>
+            <span class="status-badge status-<%= project.status || 'completed' %>">
+              <%= (project.status || 'completed').replace('-', ' ') %>
+            </span>
+          </div>
+
+          <div class="card-body">
+            <h3 class="card-title"><%= project.title %></h3>
+            <p class="card-desc"><%= project.description %></p>
+
+            <div class="card-tech">
+              <% (project.tech || []).slice(0, 4).forEach(t => { %>
+                <span class="tech-badge"><%= t %></span>
+              <% }) %>
+              <% if ((project.tech || []).length > 4) { %>
+                <span class="tech-badge more">+<%= project.tech.length - 4 %></span>
+              <% } %>
+            </div>
+          </div>
+
+          <div class="card-footer">
+            <a href="/projects/<%= project.slug %>" class="btn-primary btn-sm" id="view-<%= project.slug %>">
+              <i class="fas fa-eye"></i> View Details
+            </a>
+            <% if (project.githubRepo) { %>
+              <a href="https://github.com/<%= project.githubRepo %>" target="_blank" class="btn-ghost btn-sm" id="github-<%= project.slug %>">
+                <i class="fab fa-github"></i> GitHub
+              </a>
+            <% } %>
+          </div>
+        </article>
+      <% }) %>
+    </div>
+
+    <div class="section-cta">
+      <a href="/projects" class="btn-outline btn-lg" id="view-all-projects">
+        <i class="fas fa-th-large"></i> View All Projects
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ─── SKILLS SECTION ────────────────────────────────────────────────────── -->
+<section class="section skills-section" id="skills">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-label">Expertise</span>
+      <h2 class="section-title">Skills & <span class="gradient-text">Technologies</span></h2>
+    </div>
+
+    <div class="skills-grid">
+      <div class="skill-group" id="skill-frontend">
+        <h3 class="skill-group-title"><i class="fas fa-desktop text-accent"></i> Frontend</h3>
+        <div class="skill-tags">
+          <span class="skill-tag"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" class="skill-icon" alt="HTML"/> HTML</span>
+          <span class="skill-tag"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" class="skill-icon" alt="CSS"/> CSS</span>
+          <span class="skill-tag"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" class="skill-icon" alt="JS"/> JavaScript</span>
+          <span class="skill-tag"><i class="fas fa-leaf text-success skill-icon"></i> EJS</span>
+          <span class="skill-tag"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" class="skill-icon" alt="React"/> React</span>
+          <span class="skill-tag"><i class="fab fa-vuejs text-success skill-icon"></i> Vue.js</span>
+          <span class="skill-tag"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg" class="skill-icon" alt="Tailwind"/> Tailwind CSS</span>
+        </div>
+      </div>
+      <div class="skill-group" id="skill-backend">
+        <h3 class="skill-group-title"><i class="fas fa-server text-accent"></i> Backend</h3>
+        <div class="skill-tags">
+          <span class="skill-tag"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" class="skill-icon" alt="Node"/> Node.js</span>
+          <span class="skill-tag"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg" class="skill-icon inverted" alt="Express"/> Express</span>
+          <span class="skill-tag"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" class="skill-icon" alt="JS"/> JavaScript</span>
+          <span class="skill-tag"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" class="skill-icon" alt="Python"/> Python</span>
+          <span class="skill-tag"><i class="fas fa-network-wired text-blue skill-icon"></i> REST APIs</span>
+          <span class="skill-tag"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/graphql/graphql-plain.svg" class="skill-icon" alt="GraphQL"/> GraphQL</span>
+        </div>
+      </div>
+      <div class="skill-group" id="skill-database">
+        <h3 class="skill-group-title"><i class="fas fa-database text-accent"></i> Database</h3>
+        <div class="skill-tags">
+          <span class="skill-tag"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" class="skill-icon" alt="MySQL"/> MySQL</span>
+          <span class="skill-tag"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg" class="skill-icon" alt="MongoDB"/> MongoDB</span>
+          <span class="skill-tag"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg" class="skill-icon" alt="Postgres"/> PostgreSQL</span>
+          <span class="skill-tag"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/redis/redis-original.svg" class="skill-icon" alt="Redis"/> Redis</span>
+          <span class="skill-tag"><i class="fas fa-leaf text-success skill-icon"></i> Mongoose</span>
+        </div>
+      </div>
+      <div class="skill-group" id="skill-graphics">
+        <h3 class="skill-group-title"><i class="fas fa-paint-brush text-accent"></i> Graphics Design</h3>
+        <div class="skill-tags">
+          <span class="skill-tag"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg" class="skill-icon" alt="Figma"/> Figma</span>
+          <span class="skill-tag"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/photoshop/photoshop-plain.svg" class="skill-icon" alt="Photoshop"/> Photoshop</span>
+          <span class="skill-tag"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/illustrator/illustrator-plain.svg" class="skill-icon" alt="Illustrator"/> Illustrator</span>
+          <span class="skill-tag"><i class="fas fa-pen-nib text-purple skill-icon"></i> Branding</span>
+          <span class="skill-tag"><i class="fas fa-vector-square text-warning skill-icon"></i> UI/UX Design</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── CONTACT SECTION ───────────────────────────────────────────────────── -->
+<section class="section contact-section" id="contact">
+  <div class="container">
+    <div class="contact-wrapper">
+      <div class="contact-info">
+        <span class="section-label">Let's Talk</span>
+        <h2 class="section-title">Get In <span class="gradient-text">Touch</span></h2>
+        <p class="contact-desc">
+          I'm always open to discussing new projects, creative ideas, or
+          opportunities to be part of your vision.
+        </p>
+        <div class="contact-links">
+          <a href="mailto:<%= developer.email %>" class="contact-item" id="contact-email-link">
+            <i class="fas fa-envelope"></i>
+            <span><%= developer.email %></span>
+          </a>
+          <a href="https://wa.me/254117234064" target="_blank" class="contact-item" id="contact-whatsapp-link">
+            <i class="fab fa-whatsapp"></i>
+            <span>WhatsApp Me</span>
+          </a>
+          <a href="tel:0117234064" class="contact-item" id="contact-call-link">
+            <i class="fas fa-phone-alt"></i>
+            <span>0117234064</span>
+          </a>
+        </div>
+      </div>
+
+      <form class="contact-form" id="contact-form" novalidate>
+        <div class="form-group">
+          <label for="contact-name">Your Name</label>
+          <input type="text" id="contact-name" name="name" placeholder="John Doe" required />
+        </div>
+        <div class="form-group">
+          <label for="contact-email">Email Address</label>
+          <input type="email" id="contact-email" name="email" placeholder="john@example.com" required />
+        </div>
+        <div class="form-group">
+          <label for="contact-message">Message</label>
+          <textarea id="contact-message" name="message" rows="5" placeholder="Tell me about your project..." required></textarea>
+        </div>
+        <button type="submit" class="btn-primary btn-full" id="contact-submit">
+          <i class="fas fa-paper-plane"></i>
+          <span>Send Message</span>
+        </button>
+        <div class="form-feedback" id="form-feedback" aria-live="polite"></div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<%- include('partials/footer') %>
+
+<style>
+/* ─── ABOUT SECTION CSS ───────────────────────────────────── */
+.about-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 4rem;
+  align-items: center;
+}
+@media (max-width: 900px) {
+  .about-wrapper { grid-template-columns: 1fr; gap: 3rem; }
+}
+.about-image-col {
+  position: relative;
+  max-width: 400px;
+  margin: 0 auto;
+}
+.about-image-bkg {
+  position: relative;
+  border-radius: 20px;
+  border: 1px solid var(--border-light);
+  padding: 1rem;
+  background: var(--bg-elevated);
+}
+.about-image {
+  width: 100%;
+  border-radius: 12px;
+  display: block;
+  object-fit: cover;
+  object-position: top;
+  aspect-ratio: 4/5; /* Slightly more portrait to show more of the top/bottom */
+}
+.about-experience-badge {
+  position: absolute;
+  bottom: -20px;
+  right: -20px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-focus);
+  padding: 1.5rem;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 30px rgba(0, 240, 255, 0.2);
+  width: 120px;
+  height: 120px;
+}
+.exp-years { font-size: 2rem; font-weight: 800; color: var(--accent-primary); line-height: 1; }
+.exp-text { font-size: 0.8rem; text-transform: uppercase; font-weight: 600; text-align: center; margin-top: 0.2rem; color: var(--text-primary); }
+
+.about-desc {
+  font-size: 1.05rem;
+  color: var(--text-secondary);
+  margin-bottom: 1.5rem;
+  line-height: 1.8;
+}
+.about-info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border-light);
+}
+.info-item { display: flex; flex-direction: column; gap: 0.3rem;}
+.info-title { font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px;}
+.info-value { font-weight: 600; font-size: 1rem;}
+.info-value a { color: var(--text-primary); }
+.info-value a:hover { color: var(--accent-primary); }
+
+@media (max-width: 480px) {
+  .about-info-grid { grid-template-columns: 1fr; }
+  .about-experience-badge { width: 100px; height: 100px; right: -10px; bottom: -10px;}
+  .exp-years { font-size: 1.5rem;}
+}
+</style>

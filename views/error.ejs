@@ -1,0 +1,23 @@
+<%- include('partials/header') %>
+
+<section class="section error-section">
+  <div class="container text-center">
+    <div class="error-emoji">😕</div>
+    <h1 class="error-title"><%= error.status || 500 %></h1>
+    <h2 class="error-subtitle"><%= message %></h2>
+    <p class="error-details">
+      <% if (process.env.NODE_ENV === 'development' && error.stack) { %>
+        <pre class="bg-dark p-4 rounded text-left overflow-auto mt-4" style="max-width: 800px; margin: 2rem auto;"><code class="text-sm text-gray-300"><%= error.stack %></code></pre>
+      <% } else { %>
+        The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.
+      <% } %>
+    </p>
+    <div class="mt-6">
+      <a href="/" class="btn-primary">
+        <i class="fas fa-home"></i> Back to Home
+      </a>
+    </div>
+  </div>
+</section>
+
+<%- include('partials/footer') %>
